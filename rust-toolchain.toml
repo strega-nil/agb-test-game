@@ -1,3 +1,3 @@
 [toolchain]
-channel = "nightly"
+channel = "nightly" # required for -Z build-std
 components = ["rust-src", "clippy", "rustfmt"]

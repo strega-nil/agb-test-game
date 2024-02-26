@@ -6,21 +6,23 @@ else
 DEFAULT_GAME := test-game-dbg.gba
 endif
 
+NAME := test_game_rs
+
 all: $(DEFAULT_GAME)
 
-.PHONY: run clean
+.PHONY: all run clean
 
 TARGET_DIR := target/thumbv4t-none-eabi
 
-RUST_SOURCES := $(wildcard src/**/*.rs)
+RUST_SOURCES := $(wildcard src/*.rs gfx/*.aseprite)
 
-test-game.gba: $(TARGET_DIR)/release/agb_template
+test-game.gba: $(TARGET_DIR)/release/$(NAME)
 	agb-gbafix $< -o $@
 
-test-game-dbg.gba: $(TARGET_DIR)/debug/agb_template
+test-game-dbg.gba: $(TARGET_DIR)/debug/$(NAME)
 	agb-gbafix $< -o $@
 
-$(TARGET_DIR)/%/agb_template: $(RUST_SOURCES) Cargo.toml
+$(TARGET_DIR)/%/$(NAME): $(RUST_SOURCES) Cargo.toml
 	cargo build $(if $(findstring release,$*),--release)
 
 clean:
